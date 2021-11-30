@@ -21,6 +21,13 @@ class _CategoriesState extends State<Categories> {
   var categorymodel = CategoryModel();
   var categoryService = CategoryService();
 
+  // CONTROLLERS.....
+  var _categoryNameController = TextEditingController();
+  var _categoryDescriptionController = TextEditingController();
+  var _editCategoryNameController = TextEditingController();
+  var _editCategoryDescriptionController = TextEditingController();
+  var id;
+
   //GET ALL CATEGORIES INTO CATEGORY LIST......
   List<CategoryModel> _categoryList = <CategoryModel>[];
   getAllCategory() async {
@@ -36,13 +43,6 @@ class _CategoriesState extends State<Categories> {
       });
     });
   }
-
-// CONTROLLERS.....
-  var _categoryNameController = TextEditingController();
-  var _categoryDescriptionController = TextEditingController();
-  var _editCategoryNameController = TextEditingController();
-  var _editCategoryDescriptionController = TextEditingController();
-  var id;
 
   //EDIT CATEGORY.......
   editCategory(BuildContext context, categoryId) async {

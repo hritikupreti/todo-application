@@ -1,8 +1,9 @@
-// ignore_for_file: use_key_in_widget_constructors, avoid_unnecessary_containers, prefer_const_constructors
+// ignore_for_file: use_key_in_widget_constructors, avoid_unnecessary_containers, prefer_const_constructors, unused_field, prefer_final_fields
 
 import 'package:flutter/material.dart';
 import 'package:todo_list/screens/categories.dart';
 import 'package:todo_list/screens/home.dart';
+import 'package:todo_list/services/categoryservice.dart';
 
 class DrawerNavigator extends StatefulWidget {
   @override
@@ -10,29 +11,48 @@ class DrawerNavigator extends StatefulWidget {
 }
 
 class _DrawerNavigatorState extends State<DrawerNavigator> {
+  var _categoryList = <String>[];
+
+  @override
+  void initState() {
+    super.initState();
+    getCategory();
+  }
+
+  getCategory() async {
+    var _categoryService = CategoryService();
+    var categories = await _categoryService.readCategory();
+    categories.forEach((category) {
+      setState(() {
+        _categoryList.add(category['name']);
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
       child: Drawer(
+        backgroundColor: Colors.black,
         elevation: 0,
         child: ListView(
           children: [
-            UserAccountsDrawerHeader(
+            /*UserAccountsDrawerHeader(
               currentAccountPicture: CircleAvatar(
                 backgroundColor: Colors.white,
                 child: Icon(
                   Icons.person,
                   size: 40,
                 ),
-              ),
-              accountName: Text(
-                'Baka',
-                //style: TextStyle(color: Colors.yellow),
-              ),
-              accountEmail: Text(
-                'stupidbak@gmail.com',
-                //style: TextStyle(color: Colors.yellow),
-              ),
+              ),  
+            ),*/
+            Container(
+              height: 200,
+              decoration: BoxDecoration(
+                  image: DecorationImage(
+                image: AssetImage("assets/images/night2.jpg"),
+                fit: BoxFit.cover,
+              )),
             ),
             ListTile(
               onTap: () {
@@ -62,6 +82,23 @@ class _DrawerNavigatorState extends State<DrawerNavigator> {
                 style: TextStyle(color: Colors.amber),
               ),
             ),
+            Divider(
+              thickness: 1,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 6, left: 10),
+              child:
+                  Text('Categories', style: TextStyle(color: Colors.white30)),
+            ),
+            ListView.builder(
+                shrinkWrap: true,
+                itemCount: _categoryList.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    title: Text(_categoryList[index],
+                        style: TextStyle(color: Colors.amber)),
+                  );
+                }),
           ],
         ),
       ),

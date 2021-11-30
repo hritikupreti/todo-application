@@ -108,7 +108,6 @@ class _TodoScreenState extends State<TodoScreen> {
                   _todoModel.category = _selectedValue.toString();
                   _todoModel.isFilled = 0;
                   var result = await _todoService.saveTodo(_todoModel);
-                  print(result);
                   if (result > 0) {
                     _showSnackBar(Text('Created'));
                   }
